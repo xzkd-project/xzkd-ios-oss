@@ -1,0 +1,227 @@
+"Recent" = "最近";
+"Feed" = "通知";
+"Home" = "主页";
+"Features" = "应用";
+"Settings" = "设置";
+"Today" = "今天";
+"Tomorrow" = "明天";
+"This Week" = "本周";
+"This Month" = "本月";
+"This Year" = "今年";
+"Longer than a year" = "一年前";
+"Before %@" = "%@ 之前";
+"" = "";
+"ustc.edu.cn" = "官网";
+"Study@USTC" = "学在科大";
+
+"App Settings" = "应用设置";
+"Feed Source Settings" = "通知设置";
+"CAS Settings" = "统一身份认证设置";
+"Change User Type" = "更改用户类型";
+"Notification Settings" = "消息设置";
+"About Study@USTC" = "关于「学在科大」";
+"Legal Info" = "法律信息";
+
+"Use new UI for tabBar" = "在标签栏位置使用新版UI";
+
+"Input USTC CAS username & password" = "输入统一身份认证账户&密码";
+
+"casHint" = "此功能由USTC统一身份认证向您提供, 并非我们.\n如需了解更多信息, 打开 设置 > 法律信息 > 声明";
+"Username:" = "用户名:";
+"Password:" = "密码:";
+"Check & Login" = "确认 & 登陆";
+
+"Icon source" = "图标来源";
+"Feedkit source" = "Feedkit 来源";
+"SwiftyJSON source" = "SwiftyJSON 来源";
+"USTC CAS DISCLAIMER:" = "USTC 统一身份认证使用须知:";
+"casFullHint" = "此功能由USTC统一身份认证向您提供, 并非我们.\n如需了解更多信息和用户协议,访问 https://passport.ustc.edu.cn/\n当处理你的用户名和密码时, 我们只会将其以行业标准的方式存储在本地. 我们使用你的账户和密码来跳过网页或者程序接口所需要的认证功能, 这一过程是通过模拟用户的行为来做到的, 在后台每15分钟运行一次(如果高频使用的话). 这一行为并不违反统一身份认证的用户协议, 但此协议并不由我们拥有, 因此随时有可能在没有预先通知的前提下进行更改.\n这个过程可能会触发统一身份认证的警告, 并且可能在将来失效. 因此我们不会对这个功能的可用性负责, 请用户自担风险.";
+
+"Before we continue..." = "在我们继续之前...";
+"Choose an identity" = "请选择你的身份";
+"You could modify this later in app settings" = "你可以稍后在应用设置中修改";
+"Teacher" = "教师";
+"Notice; Teacher AAS" = "通知; 教师教务系统";
+"Parent" = "家长";
+"Notice(Without CAS)" = "通知(校外)";
+"Undergraduate" = "本科生";
+"Notice; Undergraduate AAS" = "通知; 本科生教务系统";
+"Graduate" = "研究生";
+"Demo" = "样例";
+"Notice; Graduate AAS" = "通知; 研究生教务系统";
+"Managment" = "管理";
+"Notice; Create Notice" = "通知; 创建通知";
+"Skip for now" = "暂时跳过";
+"One more step..." = "最后一步...";
+"Login Success" = "已登录";
+"You're good to go" = "已成功登录你的信息";
+"All" = "全部";
+"See More" = "查看更多";
+
+"Features" = "功能";
+"Classroom Status" = "教室情况";
+"Bus Timetable" = "校车时间表";
+"Weekday" = "工作日";
+"Weekend" = "周末";
+"Show departed buses" = "显示已出发校车";
+"No data" = "数据丢失";
+"Email" = "邮箱";
+"Course Rating" = "评课社区";
+"UG AAS" = "本科生教务";
+"AAS" = "教务系统";
+"Public Query" = "公共查询";
+"Web Service" = "网络通服务";
+"Physics Experiment" = "大物预约选课平台";
+"E-Card" = "一卡通";
+"Work-integrated Learning" = "学工一体化";
+"Hanhai Platform" = "瀚海教学网";
+"Meeting Room Appointment" = "中区研讨室预约";
+"Library" = "图书馆";
+"Calendar" = "教学日历";
+"TA" = "助教管理系统";
+"Library Appointment" = "图书馆讨论室预约";
+"Teacher Homepage" = "教师主页";
+"Vista" = "国际交流";
+"Teaching Secretary" = "教秘联系方式";
+
+
+
+"Curriculum" = "课程表";
+"Feed" = "通知";
+"Web" = "网页";
+"Mon" = "周一";
+"Tue" = "周二";
+"Wed" = "周三";
+"Thu" = "周四";
+"Fri" = "周五";
+"Sat" = "周六";
+"Sun" = "周日";
+"No courses today!" = "今日无课~";
+"Nothing here" = "本日无课";
+"Enjoy!" = "好好享受！";
+
+"Sat&Sun" = "显示周六&周日";
+"Select time" = "选择课表";
+"Save to Calendar" = "保存到日历";
+"Location: " = "位置: ";
+"Teacher: " = "教师: ";
+"ID: " = "课程号: ";
+"Week: " = "周数: ";
+"Time: " = "时间: ";
+
+"Exam" = "考试";
+"Exams" = "考试";
+"Class Name" = "课程名";
+"Time" = "时间";
+"Classroom" = "教室";
+"Class ID" = "课程号";
+"Type" = "类型";
+"Building" = "教学楼";
+"Campus" = "校区";
+"Description" = "说明";
+"More" = "更多";
+"Less" = "收起";
+"No More Exam!" = "暂无考试！";
+
+"Score" = "成绩单";
+"Semester: %@" = "选择学期: %@";
+"Sort by: %@" = "按%@排序";
+"Course Code" = "课程号";
+"Ranking:" = "排名:";
+
+"Public" = "公开";
+"Classroom Status" = "教室状态";
+"Classroom List" = "全部教室";
+"General" = "概览";
+"Pick a date" = "选择日期";
+"Show empty room only" = "只展示空教室";
+"Show one line" = "仅显示一行";
+"Buildings to show" = "选择教学楼";
+"Details" = "详情";
+"Lesson name: " = "课程名称: ";
+"Classroom: " = "教室: ";
+"Duration: " = "时间: ";
+
+"Front page post numbers: " = "首页展示通知数量: ";
+"Use new UI" = "使用新版UI";
+"Use reader" = "使用阅读器";
+"General" = "概览";
+"Reader would generaly improve reading experience for web page that aren't optimized for mobile." = "阅读器会改善部分未针对手机优化的网页";
+"Feed source to show" = "显示的通知来源";
+"A reload may be required for this to take effect." = "可能需要重启应用来生效";
+
+"%@ days left" = "%@天后";
+"1 day left" = "明天";
+"Finished" = "已结束";
+
+"Exam Settings" = "考试设置";
+"Exam name to hide" = "隐藏显示的考试名";
+"Name" = "名称";
+"Save exams to calendar" = "保存考试日程到日历";
+"When exam contains these words, they will be shown at the bottom even they comes first in time" = "当考试名中含有这些词时, (虽然他们可能早于其他考试) 这个考试会在显示在底部";
+"Add new" = "新增";
+"Health Check" = "健康打卡";
+
+"Default" = "默认值";
+"About" = "关于";
+"Legal" = "法律信息";
+
+"Sort by: Default" = "按默认值排序";
+"Something went wrong" = "出现了故障";
+"UI Preference" = "UI 设置";
+"Use new UI layout" = "使用新版UI布局";
+"Prevent screenshot when showing score" = "在展示成绩页面时禁用截图";
+
+"Lesson" = "上课";
+"Temp" = "临时";
+"%@ have update" = "「%@」有更新";
+
+"disclaimer" = "请自行与学校网站上提供的信息校对。此处展示的信息可能是错误的或是过时的，我们不对此承担任何责任。";
+
+"No lectures this week" = "本周无课";
+"Refresh" = "刷新";
+"Date" = "日期";
+"You can also swipe left/right to switch weeks" = "您也可以左右滑动来切换周";
+"Semester selection is automatically updated based on current date" = "学期自动基于日期更新";
+"Semester" = "学期";
+"Chart" = "图表";
+"Credits" = "学分";
+"TBC" = "待定";
+
+"No More Exam..." = "无更多考试";
+"Open the app to make sure though..." = "打开App来确认";
+"Days Left" = "天后";
+"Time: %@" = "时间: %@";
+"Location: %@" = "地址: %@";
+"+%@ More Exam..." = "还有%@个考试";
+"Upcoming Exams" = "接下来的考试";
+"Exam Arrangements" = "考试安排";
+"Exams:" = "考试:";
+"+%@D" = "%@天后";
+"%@+%@D" = "%@%@天后";
+"Exams" = "考试";
+"Exam" = "考试";
+"Show upcoming exam" = "显示接下来的考试安排";
+"Curriculum" = "课表";
+"Show today's curriculum." = "显示今天的课程表";
+"Finished" = "已完成";
+"%@ days left" = "%@天后";
+"Today's Course" = "今日课程";
+"No more course today!" = "今日无其他课程";
+"Class" = "课堂";
+"Today" = "今天";
+"Tomorrow" = "明天";
+"Show this week's curriculum" = "显示本周课程表";
+"Show today & tomorrow's lectures" = "显示今天和明天的课程";
+"School" = "学校";
+
+"Exam Arrangement" = "考试安排";
+"Week Schedule" = "周课表";
+"Curriculum (old)" = "课表 (旧)";
+"Exam Arrangement (old)" = "考试安排 (旧)";
+"Home Page Settings" = "首页设置";
+"Choose Semester" = "选择学期";
+"Use Baidu Statistics" = "使用百度统计";
+
+"Additional Course" = "更多课程";
+"You can choose additional courses here, they would appear in your curriculum as if they are normal courses." = "您可以在这里选择更多课程，它们会以正常课程的形式出现在您的课表中。";

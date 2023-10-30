@@ -1,0 +1,8 @@
+.DS_Store
+Private/
+**/xcuserdata/
+**/xcdebugger/
+build/
+.env
+Life@USTC.app.dSYM.zip
+Life@USTC.ipa
