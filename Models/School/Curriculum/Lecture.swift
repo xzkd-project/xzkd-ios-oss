@@ -9,11 +9,7 @@ import EventKit
 import SwiftUI
 
 /// Represent one lecture
-struct Lecture: Codable, Identifiable, Equatable {
-    var id: UUID {
-        UUID()
-    }
-
+class Lecture: Codable, Identifiable {
     var startDate: Date
     var endDate: Date
     var name: String
@@ -23,6 +19,30 @@ struct Lecture: Codable, Identifiable, Equatable {
     var additionalInfo: [String: String] = [:]
     var startIndex: Int?
     var endIndex: Int?
+    
+    weak var course: Course?
+    
+    init(
+        startDate: Date,
+        endDate: Date,
+        name: String,
+        location: String  = "",
+        teacherName: String = "",
+        periods: Double = 0,
+        additionalInfo: [String : String] = [:],
+        startIndex: Int? = nil,
+        endIndex: Int? = nil
+    ) {
+        self.startDate = startDate
+        self.endDate = endDate
+        self.name = name
+        self.location = location
+        self.teacherName = teacherName
+        self.periods = periods
+        self.additionalInfo = additionalInfo
+        self.startIndex = startIndex
+        self.endIndex = endIndex
+    }
 
     static let example = Lecture(
         startDate: Date().stripTime() + DateComponents(hour: 7, minute: 50),

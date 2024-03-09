@@ -221,6 +221,13 @@ struct LectureCardView: View {
                             Spacer()
                             Text(lecture.teacherName)
                         }
+                        if let id = lecture.course?.lessonCode {
+                            HStack {
+                                Text("ID: ".localized)
+                                Spacer()
+                                Text(id)
+                            }
+                        }
 //                        HStack {
 //                            Text("ID: ".localized)
 //                                .fontWeight(.semibold)
