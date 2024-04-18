@@ -82,10 +82,9 @@ struct Browser: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    init(useReeed: Bool = false, url: URL, title: String = "Detail") {
-        self.useReeed = useReeed
-        self.url = url
+    init (url _url: URL, title: String = "Detail") {
+        self.url = _url
         self.title = title
-        self.webView = SwiftUIWebView(url: url)
+        self.webView = SwiftUIWebView(url: _url)
     }
 }
