@@ -75,7 +75,7 @@ platform :ios do
   end
 
   desc "Add specific builds to TestFlight group: 送测"
-  lane :testflight_add_build_to_group do
+  lane :testflight_add_build_to_group do |options|
     build_number = options[:build_number]
     UI.user_error!("No build_number provided in options!") unless build_number
 
