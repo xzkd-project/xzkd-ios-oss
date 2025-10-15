@@ -2,14 +2,33 @@ name: Build & Beta
 
 on:
   push:
+    branches:
+      - "*"
     tags:
       - v*
   workflow_dispatch:
+    inputs:
+      beta:
+        description: "Deploy to TestFlight beta"
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   deploy:
     runs-on: macos-15
     steps:
+      - name: Calculate if shipping to TestFlight
+        id: should_deploy
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "deploy=${{ inputs.beta }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            echo "deploy=true" >> $GITHUB_OUTPUT
+          else
+            echo "deploy=false" >> $GITHUB_OUTPUT
+          fi
+
       - uses: actions/checkout@v4
         with:
           submodules: true
@@ -26,6 +45,7 @@ jobs:
 
       - name: Upload app-store ipa and dsyms to artifacts
         uses: actions/upload-artifact@v4
+        if: steps.should_deploy.outputs.deploy == 'true'
         with:
           name: app-store ipa & dsyms
           path: |
