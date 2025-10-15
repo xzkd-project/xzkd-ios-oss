@@ -12,10 +12,6 @@ on:
         type: boolean
         default: true
 
-concurrency:
-  group: ios-build-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   determine_action:
     name: Determine Build Action
