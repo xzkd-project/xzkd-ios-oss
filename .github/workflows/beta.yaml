@@ -37,7 +37,12 @@ jobs:
       - run: brew uninstall rsync || true
 
       - name: Build & Beta
-        run: fastlane ios beta > build.log
+        run: |
+          if [[ "${{ steps.should_deploy.outputs.deploy }}" == "true" ]]; then
+            fastlane ios beta > build.log
+          else
+            fastlane ios build > build.log
+          fi
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
@@ -47,7 +52,6 @@ jobs:
 
       - name: Upload app-store ipa and dsyms to artifacts
         uses: actions/upload-artifact@v4
-        if: steps.should_deploy.outputs.deploy == 'true'
         with:
           name: app-store ipa & dsyms
           path: |
