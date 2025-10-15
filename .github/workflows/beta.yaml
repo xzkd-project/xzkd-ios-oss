@@ -17,6 +17,8 @@ on:
 jobs:
   deploy:
     runs-on: macos-26
+    outputs:
+      deploy: ${{ steps.should_deploy.outputs.deploy }}
     steps:
       - name: Calculate if shipping to TestFlight
         id: should_deploy
@@ -70,3 +72,15 @@ jobs:
           name: build_log
           path: ${{ github.workspace }}/build_log.zip
         if: always()
+
+  post_deploy:
+    name: Post-deploy Actions
+    needs: deploy
+    if: needs.deploy.outputs.deploy == 'true' && !cancelled()
+    runs-on: macos-26
+    steps:
+      - name: Wait 10 minutes
+        run: sleep 600
+      - name: Post-deploy task
+        run: |
+          fastlane ios add_all_to_testflight_group
