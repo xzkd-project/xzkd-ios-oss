@@ -16,7 +16,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Calculate if shipping to TestFlight
         id: should_deploy
@@ -33,6 +33,8 @@ jobs:
         with:
           submodules: true
           token: ${{ secrets.PAT_TOKEN }}
+
+      - run: brew uninstall rsync || true
 
       - name: Build & Beta
         run: fastlane ios beta > build.log
