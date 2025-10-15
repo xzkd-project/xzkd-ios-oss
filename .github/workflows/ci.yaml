@@ -47,20 +47,6 @@ jobs:
           submodules: true
           token: ${{ secrets.PAT_TOKEN }}
 
-      - name: Increase build number
-        run: fastlane ios increase_build_number
-        env:
-          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          ASC_KEY: ${{ secrets.ASC_KEY }}
-
-      - name: Get build number
-        id: get_build_number
-        run: |
-          BUILD_NUMBER=$(agvtool what-version -terse)
-          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
-          echo "Build number: $BUILD_NUMBER"
-
       - name: Build IPA
         run: fastlane ios build_ipa
         env:
@@ -74,6 +60,13 @@ jobs:
           path: |
             ${{ github.workspace }}/*.ipa
             ${{ github.workspace }}/*.app.dSYM.zip
+
+      - name: Get build number
+        id: get_build_number
+        run: |
+          BUILD_NUMBER=$(agvtool what-version -terse)
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "Build number: $BUILD_NUMBER"
 
   upload_to_testflight:
     name: Upload to TestFlight
