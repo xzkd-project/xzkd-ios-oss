@@ -1,26 +1,7 @@
 platform :ios do
-  desc "Build"
-  lane :build do
+  desc "Increase build number based on latest TestFlight build"
+  lane :increase_build_number do
     setup_ci if is_ci
-    match(type: "development", readonly: true)
-    match(type: "appstore", readonly: true)
-    gym(
-      scheme: "学在科大",
-      export_method: "app-store",
-      export_options: {
-        provisioningProfiles: {
-          "com.linzihan.XZKDiOS": "match AppStore com.linzihan.XZKDiOS",
-          "com.linzihan.XZKDiOS.Widget": "match AppStore com.linzihan.XZKDiOS.Widget",
-        },
-      },
-    )
-  end
-
-  desc "Submit a new Beta Build to Apple TestFlight"
-  lane :beta do
-    setup_ci if is_ci
-    match(type: "development", readonly: true)
-    match(type: "appstore", readonly: true)
     app_store_connect_api_key(
       key_id: ENV["ASC_KEY_ID"],
       issuer_id: ENV["ASC_ISSUER_ID"],
@@ -36,6 +17,13 @@ platform :ios do
         app_identifier: "com.linzihan.XZKDiOS",
       ) + 1,
     })
+  end
+
+  desc "Build IPA for App Store distribution"
+  lane :build_ipa do
+    setup_ci if is_ci
+    match(type: "development", readonly: true)
+    match(type: "appstore", readonly: true)
     gym(
       scheme: "学在科大",
       export_method: "app-store",
@@ -46,11 +34,63 @@ platform :ios do
         },
       },
     )
-    pilot(skip_waiting_for_build_processing: true)
   end
 
-  desc "For all available versions, add to TestFlight group: 送测"
-  lane :add_all_to_testflight_group do
+  desc "Upload existing IPA to TestFlight"
+  lane :testflight_upload do
+    setup_ci if is_ci
+    app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_content: ENV["ASC_KEY"],
+      is_key_content_base64: true,
+      in_house: false,
+    )
+    pilot(
+      skip_waiting_for_build_processing: true,
+      ipa: Dir["*.ipa"].first
+    )
+  end
+
+  desc "Wait for latest TestFlight build to finish processing"
+  lane :testflight_wait_for_processing do
+    setup_ci if is_ci
+    app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_content: ENV["ASC_KEY"],
+      is_key_content_base64: true,
+      in_house: false,
+    )
+
+    app = Spaceship::ConnectAPI::App.find("com.linzihan.XZKDiOS")
+    version = get_version_number(target: "学在科大")
+    build_number = latest_testflight_build_number(
+      version: version,
+      app_identifier: "com.linzihan.XZKDiOS",
+    )
+    UI.message("Waiting for build #{version} (#{build_number}) to finish processing...")
+    loop do
+      builds = app.get_builds(filter: { version: build_number })
+      if builds.empty?
+        UI.message("Build not found yet, waiting...")
+        sleep(30)
+        next
+      end
+      build = builds.first
+      processing_state = build.processing_state
+      UI.message("Current processing state: #{processing_state}")
+      if processing_state == "VALID"
+        UI.success("Build #{version} (#{build_number}) has finished processing!")
+        break
+      end
+      UI.message("Still processing, checking again in 30 seconds...")
+      sleep(30)
+    end
+  end
+
+  desc "Add all available builds to TestFlight group: 送测"
+  lane :testflight_add_to_group do
     setup_ci if is_ci
     app_store_connect_api_key(
       key_id: ENV["ASC_KEY_ID"],

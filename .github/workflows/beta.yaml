@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - "*"
-    tags:
-      - v*
   workflow_dispatch:
     inputs:
       beta:
@@ -14,73 +12,98 @@ on:
         type: boolean
         default: true
 
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  deploy:
-    runs-on: macos-26
+  determine_action:
+    name: Determine Build Action
+    runs-on: ubuntu-latest
     outputs:
-      deploy: ${{ steps.should_deploy.outputs.deploy }}
+      should_deploy: ${{ steps.should_deploy.outputs.deploy }}
+      should_add_to_group: ${{ steps.should_deploy.outputs.deploy }}
     steps:
       - name: Calculate if shipping to TestFlight
         id: should_deploy
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "deploy=${{ inputs.beta }}" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            elif [[ "${{ github.ref }}" == refs/heads/main || "${{ github.ref }}" == refs/heads/ci-* ]]; then
             echo "deploy=true" >> $GITHUB_OUTPUT
           else
             echo "deploy=false" >> $GITHUB_OUTPUT
           fi
 
+  build:
+    name: Build IPA
+    runs-on: macos-26
+    needs: determine_action
+    steps:
       - uses: actions/checkout@v4
         with:
           submodules: true
           token: ${{ secrets.PAT_TOKEN }}
 
-      - run: brew uninstall rsync || true
-
-      - name: Build & Beta
-        run: |
-          if [[ "${{ steps.should_deploy.outputs.deploy }}" == "true" ]]; then
-            fastlane ios beta > build.log
-          else
-            fastlane ios build > build.log
-          fi
+      - name: Increase build number
+        run: fastlane ios increase_build_number
         env:
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY: ${{ secrets.ASC_KEY }}
 
+      - name: Build IPA
+        run: fastlane ios build_ipa
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+
       - name: Upload app-store ipa and dsyms to artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: app-store ipa & dsyms
+          name: app-store-ipa-dsyms
           path: |
             ${{ github.workspace }}/*.ipa
             ${{ github.workspace }}/*.app.dSYM.zip
 
-      - name: Encrypt build.log with password
-        run: |
-          zip -P ${{ secrets.BUILD_LOG_PASSWORD }} build_log.zip build.log
-          rm build.log
-        if: always()
-
-      - name: Upload build_log.zip to artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build_log
-          path: ${{ github.workspace }}/build_log.zip
-        if: always()
-
-  post_deploy:
-    name: Post-deploy Actions
-    needs: deploy
-    if: needs.deploy.outputs.deploy == 'true' && !cancelled()
+  upload_to_testflight:
+    name: Upload to TestFlight
     runs-on: macos-26
+    needs: [determine_action, build]
+    if: needs.determine_action.outputs.should_deploy == 'true'
     steps:
-      - name: Wait 10 minutes
-        run: sleep 600
-      - name: Post-deploy task
-        run: |
-          fastlane ios add_all_to_testflight_group
+      - uses: actions/checkout@v4
+
+      - name: Download IPA and dSYMs
+        uses: actions/download-artifact@v4
+        with:
+          name: app-store-ipa-dsyms
+
+      - name: Upload to TestFlight
+        run: fastlane ios testflight_upload
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY: ${{ secrets.ASC_KEY }}
+
+  add_to_testflight_group:
+    name: Add to TestFlight Group
+    runs-on: macos-26
+    needs: [determine_action, upload_to_testflight]
+    if: needs.determine_action.outputs.should_add_to_group == 'true' && !cancelled()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait for TestFlight build processing
+        run: fastlane ios testflight_wait_for_processing
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY: ${{ secrets.ASC_KEY }}
+
+      - name: Add all builds to TestFlight group
+        run: fastlane ios testflight_add_to_group
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY: ${{ secrets.ASC_KEY }}
