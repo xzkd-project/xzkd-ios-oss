@@ -39,6 +39,8 @@ jobs:
     name: Build IPA
     runs-on: macos-26
     needs: determine_action
+    outputs:
+      build_number: ${{ steps.get_build_number.outputs.build_number }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -51,6 +53,13 @@ jobs:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY: ${{ secrets.ASC_KEY }}
+
+      - name: Get build number
+        id: get_build_number
+        run: |
+          BUILD_NUMBER=$(agvtool what-version -terse)
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "Build number: $BUILD_NUMBER"
 
       - name: Build IPA
         run: fastlane ios build_ipa
@@ -89,13 +98,13 @@ jobs:
   add_to_testflight_group:
     name: Add to TestFlight Group
     runs-on: macos-26
-    needs: [determine_action, upload_to_testflight]
+    needs: [determine_action, build, upload_to_testflight]
     if: needs.determine_action.outputs.should_add_to_group == 'true' && !cancelled()
     steps:
       - uses: actions/checkout@v4
 
       - name: Wait for TestFlight build processing
-        run: fastlane ios testflight_wait_for_processing
+        run: fastlane ios testflight_wait_for_processing build_number:${{ needs.build.outputs.build_number }}
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
