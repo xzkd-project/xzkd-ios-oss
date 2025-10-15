@@ -60,9 +60,11 @@ platform :ios do
         sleep(30)
         next
       end
+
       build = builds.first
       processing_state = build.processing_state
       UI.message("Current processing state: #{processing_state}")
+
       if build.processed?
         UI.success("Build #{version} (#{build_number}) has finished processing!")
         break
@@ -72,8 +74,11 @@ platform :ios do
     end
   end
 
-  desc "Add all available builds to TestFlight group: 送测"
-  lane :testflight_add_to_group do
+  desc "Add specific builds to TestFlight group: 送测"
+  lane :testflight_add_build_to_group do
+    build_number = options[:build_number]
+    UI.user_error!("No build_number provided in options!") unless build_number
+
     setup_ci if is_ci
     app_store_connect_api_key(
       key_id: ENV["ASC_KEY_ID"],
@@ -82,12 +87,12 @@ platform :ios do
       is_key_content_base64: true,
       in_house: false
     )
+
     app = Spaceship::ConnectAPI::App.find("com.linzihan.XZKDiOS")
     groups = app.get_beta_groups(filter: {name: "送测"})
-    builds = app.get_builds
-    builds.each do |build|
-      build.add_beta_groups(beta_groups: groups)
-      UI.message("Added Build ID: #{build.id} to Beta Group: 送测")
-    end
+
+    build = app.get_builds(filter: { version: build_number }).first or UI.user_error!("No builds found with build number #{build_number}")
+    build.add_beta_groups(beta_groups: groups)
+    UI.message("Added Build ID: #{build.id} to Beta Group: 送测")
   end
 end

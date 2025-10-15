@@ -50,6 +50,7 @@ jobs:
       - name: Build IPA
         run: fastlane ios build_ipa
         env:
+          TZ: Asia/Shanghai
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
 
@@ -103,8 +104,8 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY: ${{ secrets.ASC_KEY }}
 
-      - name: Add all builds to TestFlight group
-        run: fastlane ios testflight_add_to_group
+      - name: Add to TestFlight group
+        run: fastlane ios testflight_add_build_to_group build_number:${{ needs.build.outputs.build_number }}
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
