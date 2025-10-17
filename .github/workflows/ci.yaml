@@ -44,7 +44,9 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: Setup .xcodeproj
-        run: xcodegen --spec project.yml
+        run: |
+          brew install xcodegen
+          xcodegen --spec project.yml
       - name: Build IPA
         run: fastlane ios build_ipa
         env:

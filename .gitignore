@@ -7,7 +7,7 @@ buildServer.json
 *.entitlements
 *.plist
 
-**/*.xcodeproj/**
+**/*.xcodeproj/
 
 **/xcuserdata/
 **/xcdebugger/
