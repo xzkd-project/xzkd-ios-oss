@@ -64,10 +64,13 @@ targets:
       - package: Reeeed
       - package: LoremSwiftum
       - package: KeychainAccess
+      - package: ScreenshotPreventingSwiftUI
       - target: Widget iOS
     info:
       path: Info.plist
       properties:
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
           UISceneConfigurations: {}
@@ -121,6 +124,11 @@ targets:
       - package: KeychainAccess
     info:
       path: Widget/Info.plist
+      properties:
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
 
 packages:
   FeedKit:
