@@ -29,6 +29,7 @@ targets:
       - path: "Schools/"
       - path: "Views/"
       - path: "AppDelegate.swift"
+      - path: "LaunchScreen.storyboard"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.linzihan.XZKDiOS
@@ -83,6 +84,30 @@ targets:
             UIInterfaceOrientationLandscapeLeft,
             UIInterfaceOrientationLandscapeRight,
           ]
+        BGTaskSchedulerPermittedIdentifiers:
+          - dev.tiankaima.Life-USTC.background_refresh
+        CFBundleURLTypes:
+          - CFBundleURLName: ""
+        ITSAppUsesNonExemptEncryption: false
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+          NSAllowsArbitraryLoadsForMedia: true
+          NSAllowsArbitraryLoadsInWebContent: true
+          NSExceptionDomains:
+            ustc.edu.cn:
+              NSExceptionAllowsInsecureHTTPLoads: true
+              NSIncludesSubdomains: true
+        NSCalendarsFullAccessUsageDescription: "向日历中添加课表/考试信息"
+        NSPrivacyAccessedAPITypes:
+          - NSPrivacyAccessedAPIType: NSPrivacyAccessedAPICategoryUserDefaults
+            NSPrivacyAccessedAPITypeReasons: ["1C8F.1"]
+        NSRemindersFullAccessUsageDescription: "向日历中添加课表/考试信息"
+        NSUserActivityTypes:
+          - ConfigurationIntent
+        UIBackgroundModes:
+          - fetch
+        UILaunchScreen:
+          UIImageName: ""
 
   Widget iOS:
     type: app-extension
