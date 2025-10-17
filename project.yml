@@ -58,6 +58,7 @@ targets:
       - sdk: Security.framework
       - sdk: SystemConfiguration.framework
       - package: FeedKit
+      - package: Introspect
       - package: SwiftyJSON
       - package: SwiftSoup
       - package: Reeeed
@@ -112,6 +113,7 @@ targets:
         SKIP_INSTALL: YES
     dependencies:
       - package: FeedKit
+      - package: Introspect
       - package: SwiftyJSON
       - package: SwiftSoup
       - package: Reeeed
@@ -124,6 +126,9 @@ packages:
   FeedKit:
     url: https://github.com/nmdias/FeedKit
     majorVersion: 9.1.2
+  Introspect:
+    url: https://github.com/siteline/SwiftUI-Introspect.git
+    majorVersion: 0.1.4
   SwiftyJSON:
     url: https://github.com/SwiftyJSON/SwiftyJSON
     majorVersion: 5.0.1
