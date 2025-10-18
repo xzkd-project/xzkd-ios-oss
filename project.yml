@@ -45,6 +45,9 @@ targets:
     entitlements:
       path: 学在科大.entitlements
       properties:
+        aps-environment: development
+        com.apple.developer.associated-domains:
+          - webcredentials:passport.ustc.edu.cn
         com.apple.security.app-sandbox: true
         com.apple.security.application-groups:
           - group.com.linzihan.XZKDiOS
@@ -72,6 +75,27 @@ targets:
       properties:
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        ITSAppUsesNonExemptEncryption: false
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+          NSAllowsArbitraryLoadsForMedia: true
+          NSAllowsArbitraryLoadsInWebContent: true
+          NSExceptionDomains:
+            ustc.edu.cn:
+              NSExceptionAllowsInsecureHTTPLoads: true
+              NSIncludesSubdomains: true
+        NSCalendarsUsageDescription: "向日历中添加课表/考试信息"
+        NSCalendarsFullAccessUsageDescription: "向日历中添加课表/考试信息"
+        NSRemindersFullAccessUsageDescription: "向日历中添加课表/考试信息"
+        NSPrivacyAccessedAPITypes:
+          - NSPrivacyAccessedAPIType: NSPrivacyAccessedAPICategoryUserDefaults
+            NSPrivacyAccessedAPITypeReasons: ["1C8F.1"]
+        NSUserActivityTypes:
+          - ConfigurationIntent
+        UIBackgroundModes:
+          - fetch
+        UILaunchScreen:
+          UIImageName: ""
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
           UISceneConfigurations: {}
@@ -86,28 +110,6 @@ targets:
           ]
         BGTaskSchedulerPermittedIdentifiers:
           - dev.tiankaima.Life-USTC.background_refresh
-        CFBundleURLTypes:
-          - CFBundleURLName: ""
-        ITSAppUsesNonExemptEncryption: false
-        NSAppTransportSecurity:
-          NSAllowsArbitraryLoads: true
-          NSAllowsArbitraryLoadsForMedia: true
-          NSAllowsArbitraryLoadsInWebContent: true
-          NSExceptionDomains:
-            ustc.edu.cn:
-              NSExceptionAllowsInsecureHTTPLoads: true
-              NSIncludesSubdomains: true
-        NSCalendarsFullAccessUsageDescription: "向日历中添加课表/考试信息"
-        NSPrivacyAccessedAPITypes:
-          - NSPrivacyAccessedAPIType: NSPrivacyAccessedAPICategoryUserDefaults
-            NSPrivacyAccessedAPITypeReasons: ["1C8F.1"]
-        NSRemindersFullAccessUsageDescription: "向日历中添加课表/考试信息"
-        NSUserActivityTypes:
-          - ConfigurationIntent
-        UIBackgroundModes:
-          - fetch
-        UILaunchScreen:
-          UIImageName: ""
 
   Widget iOS:
     type: app-extension
@@ -152,6 +154,7 @@ targets:
       properties:
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        CFBundleDisplayName: "学在科大"
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
 
